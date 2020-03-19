@@ -174,3 +174,38 @@ pub trait InputPin {
     /// Is the input pin low?
     fn try_is_low(&self) -> Result<bool, Self::Error>;
 }
+
+/// TODO
+pub trait OutputPinMatrix<const WIDTH: usize, const HEIGHT: usize> {
+    /// TODO
+    type Error;
+
+    /// TODO
+    fn set_high(&mut self, x: usize, y: usize) -> Result<(), Self::Error>;
+    /// TODO
+    fn set_low(&mut self, x: usize, y: usize) -> Result<(), Self::Error>;
+
+    /// TODO
+    fn set_row(&mut self, y: usize, data: &[bool; WIDTH]) -> Result<(), Self::Error> {
+        for x in 0..WIDTH {
+            if data[x] {
+                self.set_high(x, y)?
+            } else {
+                self.set_low(x, y)?
+            }
+        }
+        Ok(())
+    }
+
+    /// TODO
+     fn set_column(&mut self, x: usize, data: &[bool; HEIGHT]) -> Result<(), Self::Error> {
+         for y in 0..HEIGHT {
+            if data[y] {
+                self.set_high(x, y)?
+            } else {
+                self.set_low(x, y)?
+            }
+        }
+        Ok(())
+    }
+}
